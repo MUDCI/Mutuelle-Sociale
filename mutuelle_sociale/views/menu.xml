@@ -1,0 +1,123 @@
+<odoo>
+  <data>
+    <!-- Top menu item -->
+    <menuitem name="Mutuelle Sociale"
+              id="mudci_social_menu_root"
+              web_icon="mutuelle_sociale,static\description\icon.png"
+    />
+
+    <!-- menu Principal -->
+    <menuitem name="Configuration"
+              id="mudci_social_config"
+              parent="mudci_social_menu_root"
+              groups="mutuelle_sociale.groupe_admin"
+              sequence="8"/>
+
+    <menuitem name="Comptes"
+              id="mudci_social_comptes"
+              parent="mudci_social_menu_root"
+              action="dps_comptes_action_window"
+              groups="mutuelle_sociale.groupe_cd"
+              sequence="7"/>
+
+    <menuitem name="Caisse Pestation"
+              id="mudci_social_caisse_prestation"
+              parent="mudci_social_menu_root"
+              action="dps_caisse_prestation_action_window"
+              sequence="6"/>
+
+    <menuitem name="Caisse Prêt"
+              id="mudci_social_caisse"
+              parent="mudci_social_menu_root"
+              action="dps_caisse_action_window"
+              sequence="5"/>
+
+    <menuitem name="Mutualiste"
+              id="mudci_social_mutualiste"
+              parent="mudci_social_menu_root"
+              sequence="1"/>
+
+    <menuitem name="Cotisation"
+              id="mudci_social_cotisation"
+              parent="mudci_social_menu_root"
+              action="dps_cotisation_normale_action_window"
+              groups="mutuelle_sociale.groupe_cd"
+              sequence="2"/>
+
+    <menuitem name="Prêt"
+              id="mudci_social_pret"
+              parent="mudci_social_menu_root"
+              action="dps_prets_action_window"
+              sequence="3"/>
+
+    <menuitem name="Assistance Sociale"
+              id="mudci_social_prestation"
+              parent="mudci_social_menu_root"
+              action="mudci_dps_prestations_action_window"
+              sequence="4"/>
+
+    <!-- actions -->
+
+      <menuitem name="Adherents"
+              id="mudci_social_adherent"
+              parent="mudci_social_mutualiste"
+              action="dps_mutualiste_action_window"
+              sequence="1"/>
+
+      <menuitem name="Beneficiaire"
+              id="mudci_social_beneficiaire"
+              parent="mudci_social_mutualiste"
+              action="dps_beneficiaire_action_window"
+              sequence="2"/>
+
+    <menuitem name="Utilisateur"
+              id="mudci_social_user"
+              parent="mudci_social_config"
+              action="dps_type_utilisateur_action_window"
+              sequence="1"/>
+
+    <menuitem name="Type Utilisateur"
+              id="mudci_social_type_user"
+              parent="mudci_social_config"
+              action="dps_type_utilisateur_action_window"
+              sequence="2"/>
+
+
+    <menuitem name="Type Cotisation"
+              id="mudci_social_type_cotisation"
+              parent="mudci_social_config"
+              action="dps_type_cotisation_action_window"
+              sequence="3"/>
+
+    <menuitem name="Type Prêt"
+              id="mudci_social_type_pret"
+              parent="mudci_social_config"
+              action="dps_type_prets_action_window"
+              sequence="4"/>
+
+     <menuitem name="Type Prestation"
+              id="mudci_social_type_prestation"
+              parent="mudci_social_config"
+              action="dps_type_prestations_action_window"
+              sequence="5"/>
+
+    <menuitem name="Depot"
+              id="mudci_social_depot"
+              parent="mudci_social_config"
+              action="dps_depot_action_window"
+              sequence="6"/>
+
+    <menuitem name="Retrait"
+              id="mudci_social_retrait"
+              parent="mudci_social_config"
+              action="dps_retrait_action_window"
+              sequence="7"/>
+
+    <menuitem name="Partenaire"
+              id="mudci_social_partenaire"
+              parent="mudci_social_config"
+              action="dps_partenaire_action_window"
+              sequence="7"/>
+
+  </data>
+</odoo>

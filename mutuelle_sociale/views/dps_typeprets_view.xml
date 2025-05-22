@@ -1,0 +1,59 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="dps_type_prets_list">
+      <field name="name">dps_type_prets list</field>
+      <field name="model">dps_type_prets</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="lib_typ_pret"/>
+          <field name="cod_typ_pret"/>
+          <field name="activate_typ_pret"/>
+          <field name="date_typ_pret"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="dps_type_prets_form">
+            <field name="name">dps_type_prets form</field>
+            <field name="model">dps_type_prets</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="lib_typ_pret" required="1"/>
+                                <field name="cod_typ_pret" required="1"/>
+                            </group>
+                            <group>
+                                <field name="date_typ_pret"/>
+                                <field name="activate_typ_pret"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Frais de Dossier">
+                                <field name="dps_frais_doc" widget="one2many_list">
+                                    <tree>
+                                        <field name="montant_min"/>
+                                        <field name="montant_max"/>
+                                        <field name="montant_frais"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+              <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="dps_type_prets_action_window">
+            <field name="name">Type De Prêt</field>
+            <field name="res_model">dps_type_prets</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"default_status_pret":"exceptionnel"}</field>
+        </record>
+
+  </data>
+</odoo>

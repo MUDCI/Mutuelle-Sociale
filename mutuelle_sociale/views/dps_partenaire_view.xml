@@ -1,0 +1,49 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="dps_partenaire_list">
+      <field name="name">dps_partenaire list</field>
+      <field name="model">dps.partenaire</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="denomination"/>
+          <field name="cod_partenaire"/>
+          <field name="email_partenaire"/>
+          <field name="contacts_partenaire"/>
+          <field name="type_partenaire"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="dps_partenaire_form">
+            <field name="name">dps_partenaire form</field>
+            <field name="model">dps.partenaire</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="denomination"/>
+                                <field name="cod_partenaire"/>
+                                <field name="email_partenaire"/>
+                            </group>
+                            <group>
+                                <field name="contacts_partenaire"/>
+                                <field name="type_partenaire"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+              <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="dps_partenaire_action_window">
+            <field name="name">Partenaire</field>
+            <field name="res_model">dps.partenaire</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+  </data>
+</odoo>

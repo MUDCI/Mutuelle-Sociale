@@ -1,0 +1,40 @@
+<odoo>
+<!--    Ajouts de la categorie-->
+    <record id="module_category_dps" model="ir.module.category">
+        <field name="name">DPS</field>
+        <field name="description">DPS management</field>
+        <field name="sequence">10</field>
+    </record>
+
+<!--    Ajouts des groupes utilisateurs du système-->
+    <record id="groupe_admin" model="res.groups">
+        <field name="name">Administrateur</field>
+        <field name="category_id" ref="module_category_dps"/>
+        <field name="implied_ids" eval="[(4, ref('mutuelle_sociale.groupe_de'))]"/>
+    </record>
+
+    <record id="groupe_agts" model="res.groups">
+        <field name="name">Agent</field>
+        <field name="category_id" ref="module_category_dps"/>
+    </record>
+
+
+    <record id="groupe_cs" model="res.groups">
+        <field name="name">Chef De Service</field>
+        <field name="category_id" ref="module_category_dps"/>
+        <field name="implied_ids" eval="[(4, ref('mutuelle_sociale.groupe_agts'))]"/>
+    </record>
+
+    <record id="groupe_cd" model="res.groups">
+        <field name="name">Chef De Département</field>
+        <field name="category_id" ref="module_category_dps"/>
+        <field name="implied_ids" eval="[(4, ref('mutuelle_sociale.groupe_cs'))]"/>
+    </record>
+
+    <record id="groupe_de" model="res.groups">
+        <field name="name">Directeur Exécutif</field>
+        <field name="category_id" ref="module_category_dps"/>
+        <field name="implied_ids" eval="[(4, ref('mutuelle_sociale.groupe_cd'))]"/>
+    </record>
+
+</odoo>

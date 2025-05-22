@@ -1,0 +1,45 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <record model="ir.ui.view" id="depot_list">
+      <field name="name">dps_depot list</field>
+      <field name="model">dps.depot</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="montant"/>
+          <field name="type_compte"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="depot_form">
+        <field name="name">dps_depot form</field>
+        <field name="model">dps.depot</field>
+        <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="type_compte"/>
+                            <group>
+                                <field name="montant"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+      <!-- actions opening views on models -->
+    <record model="ir.actions.act_window" id="dps_depot_action_window">
+      <field name="name">Dépot</field>
+      <field name="res_model">dps.depot</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+  </data>
+</odoo>

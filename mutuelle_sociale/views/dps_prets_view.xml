@@ -1,0 +1,197 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="rembourssement_list">
+            <field name="name">dps_amortissement list</field>
+            <field name="model">dps.amortissement</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="pret_id"/>
+                    <field name="installment_number"/>
+                    <field name="due_date"/>
+                    <field name="installment_amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="prets_list">
+            <field name="name">dps_prets list</field>
+            <field name="model">dps.prets</field>
+            <field name="arch" type="xml">
+                <tree string="Prêt" decoration-info="status in ['enregistrer','etudecs','etudecd','etudede']" decoration-success="status in ['valider','payer','solder']" decoration-danger="status == 'rejeter'" decoration-warning="status == 'remboussement'">
+                    <field name="adherent_id"/>
+<!--                    <field name="photo" widget="image" class="oe_avatar"/>-->
+                    <field name="photo" widget="image" class="o_avatar o_m2o_avatar"/>
+                    <field name="nom_prenoms"/>
+                    <field name="pret_number"/>
+                    <field name="type_pret_ids"/>
+                    <field name="amount_requested" sum="amount_requested"/>
+                    <field name="status" widget="badge" decoration-info="status in ['enregistrer','etudecs','etudecd','etudede']" decoration-success="status in ['valider','payer','solder']" decoration-danger="status == 'rejeter'" decoration-warning="status == 'remboussement'"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_prets_form" model="ir.ui.view">
+            <field name="name">dps_prets form</field>
+            <field name="model">dps.prets</field>
+            <field name="arch" type="xml">
+                <form string="Demande de Prêt">
+                    <header>
+                       <button name="compute_inscription"
+                               invisible="status in ['enregistrer','rejeter','etudecs','etudecd','etudede','valider','payer']"
+                               class="btn btn-success"
+                               type="object"
+                               confirm="Confirmez-vous cette action ?"
+                               string="Enregistrer"/>
+
+                        <button name="compute_etudecs"
+                                invisible="status in ['creation','etudecs','etudecd','etudede','valider','payer']"
+                                class="btn btn-success"
+                                type="object"
+                                confirm="Confirmez-vous cette action ?"
+                                string="Soumettre au CS"/>
+
+                        <button name="compute_etudecd"
+                                invisible="status in ['creation','etudecd','rejeter','etudede','enregistrer','valider','payer']"
+                                class="btn btn-success"
+                                type="object"
+                                groups="mutuelle_sociale.groupe_cs"
+                                confirm="Confirmez-vous cette action ?"
+                                string="Soumettre au CD"/>
+
+                        <button name="compute_etudede"
+                                invisible="status in ['creation','enregistrer','etudecs','etudede','rejeter','valider','payer']"
+                                class="btn btn-success"
+                                type="object"
+                                groups="mutuelle_sociale.groupe_cd"
+                                confirm="Confirmez-vous cette action ?"
+                                string="Soumettre au DE"/>
+
+                        <button name="compute_valider"
+                                invisible="status in ['creation','enregistrer','etudecs','etudecd', 'rejeter','valider','payer']"
+                                class="btn btn-success"
+                                type="object"
+                                groups="mutuelle_sociale.groupe_de"
+                                confirm="Confirmez-vous cette action ?"
+                                string="Approuver"/>
+
+                        <button name="compute_payer"
+                                invisible="status in ['creation','enregistrer','etudecs','etudecd','etudede','rejeter','payer']"
+                                class="btn btn-success"
+                                type="object"
+                                confirm="Confirmez-vous cette action ?"
+                                string="Payer"/>
+
+                        <button name="compute_rejeter"
+                                invisible="status in ['creation','payer','valider']"
+                                class="btn btn-danger"
+                                type="object"
+                                confirm="Confirmez-vous cette action ?"
+                                string="Rejeter"/>
+
+                        <field name="status" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box"
+                             invisible="status in ['creation','valider','enregistrer','etudecs','etudecd','etudede','rejeter']">
+                            <button name="rembourssement_list" type="object" class="oe_stat_button" icon="fa-list" >
+                                <field name="rembourssement_count" widget="statinfo" string="Facture a remboursser"/>
+                            </button>
+                        </div>
+                        <field name="photo" widget="image" class="oe_avatar"/>
+                        <group>
+                            <group name="adherent_info" string="Adhérent">
+                                <field name="adherent_id" widget="many2one" options="{'no_create': True}"/>
+                                <field name="matricule"/>
+                                <field name="adherent_name"/>
+                                <field name="adherent_prenoms"/>
+                                <field name="datenaissance"/>
+                                <field name="mobile"/>
+                            </group>
+                            <group name="loan_info" string="Prêt">
+                                <field name="pret_number" class="oe_title"/>
+                                <field name="type_pret_ids"/>
+                                <field name="amount_requested"/>
+                                <field name="pret_reason"/>
+                                <field name="pret_date" widget="date"/>
+                                <field name="description" widget="text"/>
+                            </group>
+                            <group name="quotite_info" string="Quotité cessible">
+                                <field name="adherent_income"/>
+<!--                                <button name="compute_quotite" type="object" string="Calculer la quotité"/>-->
+                                <field name="quotite"/>
+                            </group>
+                            <group name="fees_info" string="Frais">
+                                <field name="fees_type"/>
+                                <field name="fees_amount"/>
+                            </group>
+                        </group>
+                        <group name="amortization_info" string="Amortissement">
+                            <group>
+                                <field name="start_date" widget="date"/>
+                                <field name="periodicity" widget="selection"/>
+                                <field name="installments"/>
+                            </group>
+                            <group>
+                                <button name="generate_amortissement" type="object" string="Générer le tableau Amortissement" class="btn btn-info"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Amortissement">
+                                <field name="amortization_lines">
+                                    <tree>
+                                        <field name="installment_number"/>
+                                        <field name="due_date"/>
+                                        <field name="installment_amount"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Revenue">
+                                <field name="dps_revenu_pret" widget="one2many_list">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="montantrevenu" sum="Total Revenue"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Engagement Antérieur">
+                                <field name="dps_engagement_mut" widget="one2many_list">
+                                    <tree>
+                                        <field name="creancier_partner"/>
+                                        <field name="tel_creancier"/>
+                                        <field name="mail_creancier"/>
+                                        <field name="montant_engager" sum="Total Engagements"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Documents">
+                                <field name="dps_docs_pret" widget="one2many_list">
+                                    <tree>
+                                        <field name="dat_recept"/>
+                                        <field name="ref_docs"/>
+                                        <field name="typ_docs"/>
+                                        <field name="dat_etablir"/>
+                                        <field name="dat_valid_docs"/>
+                                        <field name="image_docs" widget="image" class="oe_avatar"/>
+                                        <field name="active_docs"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Historique"></page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="dps_prets_action_window">
+            <field name="name">Prêts</field>
+            <field name="res_model">dps.prets</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

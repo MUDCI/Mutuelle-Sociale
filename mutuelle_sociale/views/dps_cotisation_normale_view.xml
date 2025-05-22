@@ -1,0 +1,120 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+       <!--  vue list -->
+    <record model="ir.ui.view" id="dps_cotisation_normale_list">
+      <field name="name">dps_cotisation_normale list</field>
+      <field name="model">dps_cotisation_normale</field>
+      <field name="arch" type="xml">
+        <tree>
+            <field name="name"/>
+            <field name="type_cotisation"/>
+            <field name="mutualiste"/>
+            <field name="source"/>
+            <field name="periode"/>
+            <field name="anneecotisation"/>
+            <field name="effectif_cotisation"/>
+            <field name="montantpreleve"/>
+            <field name="montantcotisation" sum="Total"/>
+            <field name="date_cotisation"/>
+        </tree>
+      </field>
+    </record>
+       <!-- end vue list -->
+       <!--  vue kanban -->
+
+      <record id="dps_cotisation_normale_kanban" model="ir.ui.view">
+            <field name="name">dps_cotisation_normale kanban</field>
+            <field name="model">dps_cotisation_normale</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_view">
+                    <templates>
+                        <t t-name="kanban-box">
+                             <div class="oe_kanban_card">
+                                 <div class="o_kanban_card_header">
+                                     <strong><field name="type_cotisation" /></strong>
+                                 </div>
+                                 <div> </div>
+                                <div class="container o_kanban_card_content">
+                                    <div class="row">
+                                        <div class="col-6 o_kanban_primary_left">
+                                            <button class="btn btn-success">
+                                               Voir plus
+                                            </button>
+                                        </div>
+                                        <div class="col-6 o_kanban_primary_right">
+                                            <span><field name="montantcotisation" /> FCFA</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+       <!--  end vue kanban -->
+
+      <record id="dm_type_pret_pivot" model="ir.ui.view">
+            <field name="name">dps_cotisation_normale pivot</field>
+            <field name="model">dps_cotisation_normale</field>
+            <field name="arch" type="xml">
+                <pivot>
+                    <!-- Mesures -->
+
+                    <!-- Dimensions -->
+                    <field name="type_cotisation" type="row"/>
+                    <field name="montantcotisation" type="column"/>
+                </pivot>
+            </field>
+        </record>
+
+       <!--  vue form -->
+    <record model="ir.ui.view" id="dps_cotisation_normale_form">
+            <field name="name">dps_cotisation_normale form</field>
+            <field name="model">dps_cotisation_normale</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" readonly="1"/>
+                                <field name="type_cotisation"/>
+                                <field name="mutualiste"/>
+                                <field name="source"/>
+                                <field name="effectif_cotisation"/>
+                            </group>
+                            <group>
+                                <field name="periode"/>
+                                <field name="anneecotisation"/>
+                                <field name="montantpreleve"/>
+                                <field name="montantcotisation"/>
+                                <field name="date_cotisation"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Liste des cotisants">
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+    </record>
+     <!--  end vue form -->
+
+    <record model="ir.actions.act_window" id="dps_cotisation_normale_action_window">
+            <field name="name">Cotisation</field>
+            <field name="res_model">dps_cotisation_normale</field>
+            <field name="view_mode">tree,kanban,form,pivot,search,graph</field>
+    </record>
+
+
+  </data>
+</odoo>

@@ -1,0 +1,81 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="caisse_list">
+            <field name="name">dps_caisse list</field>
+            <field name="model">dps.caisse</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="prets_id"/>
+                    <field name="numdossier"/>
+                    <field name="cde_adh_mat_caisse"/>
+                    <field name="nom_mut_d"/>
+                    <field name="prenom_mut_d"/>
+                    <field name="mtt_enreg"/>
+                    <field name="dat_flux"/>
+                    <field name="type_pret_caisse"/>
+                    <field name="status"
+                           widget="badge"
+                           decoration-success="status in ['remboussement','payer', 'solder']"
+                           optional="show"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_caisse_form" model="ir.ui.view">
+            <field name="name">dps_caisse form</field>
+            <field name="model">dps.caisse</field>
+            <field name="arch" type="xml">
+                <form string="Paiement de Caisse">
+                    <header>
+                        <button name="compute_payer" invisible="status == 'payer'" class="btn btn-success" type="object"
+                                confirm="Confirmez-vous cette action ?" string="Payer"/>
+                        <button name="compute_payer" invisible="status == 'remboussement'" class="btn btn-success"
+                                type="object" confirm="Confirmez-vous cette action ?" string="Payer"/>
+                        <field name="status" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <h2>
+                                <field name="numdossier" class="oe_title"/>
+                            </h2>
+                            <group></group>
+                                <group>
+                                    <field name="cde_adh_mat_caisse"/>
+                                    <field name="nom_mut_d"/>
+                                    <field name="prenom_mut_d"/>
+                                </group>
+                                <group>
+                                    <field name="type_pret_caisse"/>
+                                    <field name="mtt_enreg"/>
+                                    <field name="status"/>
+                                    <field name="dat_flux"/>
+                                </group>
+                        </group>
+                        <notebook>
+                            <page string="Remboursement">
+                                <field name="echeanchier">
+                                    <tree>
+                                        <field name="installment_number"/>
+                                        <field name="due_date"/>
+                                        <field name="installment_amount"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="dps_caisse_action_window">
+            <field name="name">Caisse</field>
+            <field name="res_model">dps.caisse</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

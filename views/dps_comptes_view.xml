@@ -1,0 +1,98 @@
+<odoo>
+
+    <record model="ir.ui.view" id="compte_list">
+        <field name="name">dps_comptes list</field>
+        <field name="model">dps_comptes</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="type_compte"/>
+                <field name="total_depot"/>
+                <field name="total_retrait"/>
+                <field name="solde"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="compte_form">
+        <field name="name">dps_comptes form</field>
+        <field name="model">dps_comptes</field>
+        <field name="arch" type="xml">
+            <form string="Compte">
+                <sheet>
+                    <group>
+                        <field name="type_compte"/>
+                        <field name="total_depot"/>
+                        <field name="total_retrait"/>
+                        <field name="solde"/>
+                    </group>
+
+<!--                    <div class="oe_charts">-->
+<!--                        <graph type="bar">-->
+<!--                            <field name="total_depot"/>-->
+<!--                            <field name="total_retrait"/>-->
+<!--                            <field name="type_compte" group="True"/>-->
+<!--                        </graph>-->
+<!--                    </div>-->
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="dps_comptes_kanban" model="ir.ui.view">
+        <field name="name">dps_comptes kanban</field>
+        <field name="model">dps_comptes</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_view o_kanban_dashboard">
+                <field name="total_depot"/>
+                <field name="total_retrait"/>
+                <field name="solde"/>
+                <field name="type_compte"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="o_kanban_card">
+                            <div class="o_kanban_title">
+                                <h3>
+                                    <span t-esc="record.type_compte.value" class="title-text"/>
+                                </h3>
+                            </div>
+                            <button type="button" class="o_button_new_transaction" name="type_compte">
+                                Nouvelle transaction
+                            </button>
+                            <div class="o_kanban_content">
+
+                                <div class="o_kanban_content">
+                                    <p>
+                                        <strong>Crédit :     </strong>
+                                        <span t-esc="record.total_depot.value or 0"/>
+                                        CFA
+                                    </p>
+                                    <p>
+                                        <strong>Débit :    </strong>
+                                        <span t-esc="record.total_retrait.value or 0"/>
+                                        CFA
+                                    </p>
+                                    <p>
+                                        <strong>Solde :     </strong>
+                                        <span t-esc="record.solde.raw_value or 0"/>
+                                        CFA
+                                    </p>
+                                </div>
+                                <!-- Graphique Chart.js -->
+<!--                                <canvas t-att-id="'chart-' + record.id.value" class="o_kanban_chart"></canvas>-->
+                                <div class="o_kanban_graph"></div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+    <record model="ir.actions.act_window" id="dps_comptes_action_window">
+            <field name="name">Les Comptes</field>
+            <field name="res_model">dps_comptes</field>
+            <field name="view_mode">kanban,form,tree</field>
+    </record>
+</odoo>

@@ -1,0 +1,189 @@
+<odoo>
+    <data>
+
+        <!--        Vue recherche -->
+        <record id="dps_mutualiste_search" model="ir.ui.view">
+            <field name="name">dps_prestation_mutualiste search</field>
+            <field name="model">dps_prestation_mutualiste</field>
+            <field name="arch" type="html">
+                <search>
+                    <field name="prest_auto_increment"/>
+                    <field name="cde_adh_mat"/>
+                    <field name="adh_nm"/>
+                    <field name="adh_prnms"/>
+                    <field name="dps_typprest"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="dps_prestation_list">
+            <field name="name">dps_prestation_mutualiste list</field>
+            <field name="model">dps_prestation_mutualiste</field>
+            <field name="arch" type="xml">
+                <!-- Occurences de la grille des donnée - Vue Liste -->
+                <tree string="prestation" decoration-muted="statut_prestation in ['encreation']"
+                           decoration-info="statut_prestation in ['enregistrer','appro_cs','appro_cd','appro_de']"
+                           decoration-success="statut_prestation in ['valider','payer']"
+                           decoration-warning="statut_prestation == 'rejeter'">
+                    <field name="prest_auto_increment"/>
+                    <field name="adh_photo" widget="image" class="o_avatar o_m2o_avatar"/>
+                    <field name="cde_adh_mat"/>
+                    <field name="adh_nm"/>
+                    <field name="adh_prnms"/>
+                    <field name="dps_typprest"/>
+                    <field name="dat_demande"/>
+                    <field name="statut_prestation"
+                           widget="badge"
+                           decoration-muted="statut_prestation in ['encreation']"
+                           decoration-info="statut_prestation in ['enregistrer','appro_cs','appro_cd','appro_de']"
+                           decoration-success="statut_prestation in ['valider','payer']"
+                           decoration-warning="statut_prestation == 'rejeter'"/>
+                    <field name="montant_prestation" sum="Solde Prestation"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_dps_prestation_form">
+            <field name="name">dps_prestation_mutualiste form</field>
+            <field name="model">dps_prestation_mutualiste</field>
+            <field name="arch" type="xml">
+                <form string="Enregistrer une demande de prestation">
+                    <header>
+                        <!--                        <button name="compute_prestationssocial_encreat" invisible="statut_prestation in ['enregistrer','rejeter', 'appro_cs', 'appro_cd','appro_de','payer']" class="btn btn-primary" type="object" string="En création"/>-->
+                        <button name="compute_prestationssocial"
+                                invisible="statut_prestation in ['enregistrer','rejeter','appro_cs','appro_cd','appro_de','valider','payer']"
+                                class="btn btn-success"
+                                type="object"
+                                confirm="Confirmez-vous cette action ?"
+                                string="Enregistrer"/>
+
+                        <button name="compute_prestationssocial_cs"
+                                invisible="statut_prestation in ['encreation','appro_cs','appro_cd','appro_de','valider','payer']"
+                                class="btn btn-success"
+                                type="object"
+                                confirm="Confirmez-vous cette action ?"
+                                string="Soumettre au CS"/>
+
+                        <button name="compute_prestationssocial_cd"
+                                invisible="statut_prestation in ['encreation','appro_cd','rejeter','appro_de','enregistrer','valider','payer']"
+                                class="btn btn-success"
+                                type="object"
+                                groups="mutuelle_sociale.groupe_cs"
+                                confirm="Confirmez-vous cette action ?"
+                                string="Soumettre au CD"/>
+
+                        <button name="compute_prestationssocial_de"
+                                invisible="statut_prestation in ['encreation','enregistrer','appro_cs','appro_de','rejeter','valider','payer']"
+                                class="btn btn-success"
+                                type="object"
+                                groups="mutuelle_sociale.groupe_cd"
+                                confirm="Confirmez-vous cette action ?"
+                                string="Soumettre au DE"/>
+
+                        <button name="compute_prestationssocial_appro_de"
+                                invisible="statut_prestation in ['encreation','enregistrer','appro_cs','appro_cd', 'rejeter','valider','payer']"
+                                class="btn btn-success"
+                                type="object"
+                                groups="mutuelle_sociale.groupe_de"
+                                confirm="Confirmez-vous cette action ?"
+                                string="Approuver"/>
+
+                        <button name="compute_prestationssocial_valide"
+                                invisible="statut_prestation in ['encreation','enregistrer','appro_cs','appro_cd','appro_de','rejeter','payer']"
+                                class="btn btn-success"
+                                type="object"
+                                confirm="Confirmez-vous cette action ?"
+                                string="Payer"/>
+
+
+                        <button name="compute_prestationssociale_rejet"
+                                invisible="statut_prestation in ['encreation','payer','valider']"
+                                class="btn btn-danger"
+                                type="object"
+                                confirm="Confirmez-vous cette action ?"
+                                string="Annuler"/>
+
+                        <field name="statut_prestation" widget="statusbar"/>
+
+                    </header>
+                    <sheet>
+                        <field name="adh_photo" widget="image" class="oe_avatar"/>
+                        <group>
+                            <h1>
+                                <field name="prest_auto_increment" class="oe_title"/>
+                            </h1>
+                            <group></group>
+                            <group>
+                                <field name="adh_id" widget="many2one" options="{'no_create': True}"/>
+                                <field name="cde_id_mut"/>
+                                <field name="cde_adh_mat"/>
+                                <field name="adh_nm"/>
+                                <field name="adh_prnms"/>
+                            </group>
+                            <group>
+                                <field name="adh_datenaiss"/>
+                                <field name="adh_stat"/>
+                                <field name="adh_sex"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Prestation">
+                                <group>
+                                    <group>
+                                        <field name="dps_typprest" widget="many2one" options="{'no_create': True}"/>
+                                        <field name="lieu_enlevemnt"/>
+                                    </group>
+                                    <group>
+                                        <field name="montant_prestation"/>
+                                        <field name="dat_enlevemnt"/>
+                                        <field name="dat_demande"/>
+                                    </group>
+                                    <group></group>
+                                </group>
+                            </page>
+
+                            <page string="Intervenant(s)">
+                                <field name="dps_intervenant" widget="one2many_list">
+                                    <tree>
+                                        <field name="intervenant"/>
+                                        <field name="typ_intervenant"/>
+                                        <field name="mont_intervenant" sum="Solde Prestation"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Documents joint(s)">
+                                <field name="dps_docs_mut_prest">
+                                    <tree>
+                                        <field name="typ_docs_prest" sequence="1"/>
+                                        <field name="ref_docs_prest" sequence="2"/>
+                                        <field name="dat_etablir_prest" sequence="3"/>
+                                        <field name="dat_valid_docs_prest" sequence="4"/>
+                                        <field name="attachment_docs_prest" filename="ref_docs_prest" class="btn btn-warning"/>
+                                    </tree>
+                                </field>
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="mudci_dps_prestations_action_window">
+            <field name="name">Assistance sociale</field>
+            <field name="res_model">dps_prestation_mutualiste</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+    </data>
+</odoo>

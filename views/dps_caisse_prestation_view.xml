@@ -1,0 +1,61 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="dps_caisse_list">
+            <field name="name">dps_caisse_prestation list</field>
+            <field name="model">dps.caisse.prestation</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="prest_auto_increment_caisse"/>
+                    <field name="cde_adh_mat_caisse"/>
+                    <field name="nom_mut_d"/>
+                    <field name="prenom_mut_d"/>
+                    <field name="mtt_enreg"/>
+                    <field name="statut_prestation_caisse"
+                           widget="badge"
+                           decoration-success="statut_prestation_caisse in ['valider','payer']"
+                           optional="show"/>
+                    <field name="dat_flux"/>
+                    <field name="type_prestation_caisse"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="dps_caisse_form">
+            <field name="name">dps_caisse_prestation form</field>
+            <field name="model">dps.caisse.prestation</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <h2>
+                                <field name="prest_auto_increment_caisse" class="oe_title"/>
+                            </h2>
+                            <group></group>
+                            <group>
+                                <group>
+                                    <field name="cde_adh_mat_caisse"/>
+                                    <field name="nom_mut_d"/>
+                                    <field name="prenom_mut_d"/>
+                                </group>
+                                <group>
+                                    <field name="type_prestation_caisse"/>
+                                    <field name="mtt_enreg"/>
+                                    <field name="statut_prestation_caisse"/>
+                                    <field name="dat_flux"/>
+                                </group>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="dps_caisse_prestation_action_window">
+            <field name="name">Caisse Prestation</field>
+            <field name="res_model">dps.caisse.prestation</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

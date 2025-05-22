@@ -1,0 +1,88 @@
+<odoo>
+    <data>
+        <!--        Vue liste -->
+
+        <record model="ir.ui.view" id="beneficiaire_list">
+            <field name="name">beneficiaire list</field>
+            <field name="model">dps.beneficiaire</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="cde_benef"/>
+                    <field name="code_mutualiste"/>
+                    <field name="nom_benef"/>
+                    <field name="prenoms_benef"/>
+                    <field name="datnaiss_benef"/>
+                    <field name="genr_benef"/>
+                    <field name="statut_benef"/>
+                    <field name="local_benef"/>
+                    <field name="tel_benef"/>
+                    <field name="etat_benef"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="dps_beneficiaire_search" model="ir.ui.view">
+            <field name="name">dps_beneficiaire search</field>
+            <field name="model">dps.beneficiaire</field>
+            <field name="arch" type="html">
+                <search>
+                    <field name="cde_benef"/>
+                    <field name="code_mutualiste"/>
+                    <field name="nom_benef"/>
+                    <field name="prenoms_benef"/>
+                    <field name="datnaiss_benef"/>
+                    <field name="genr_benef"/>
+                    <field name="statut_benef"/>
+                    <field name="local_benef"/>
+                    <field name="tel_benef"/>
+                    <field name="etat_benef"/>
+                </search>
+            </field>
+        </record>
+
+        <!--        Vue Formulaire-->
+
+        <record model="ir.ui.view" id="beneficiaire_form">
+            <field name="name">beneficiaire form</field>
+            <field name="model">dps.beneficiaire</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <xpath expr="/form/sheet/div/button[2]" position="after">
+                            <button name="action_import_image" string="Importer image" type="object" class="oe_highlight" />
+                        </xpath>
+                    </header>
+                    <sheet>
+                        <field name="image_benef" widget="image" class="oe_avatar"/>
+                        <group>
+                            <group>
+                                <field name="cde_benef" required="1"/>
+                                <field name="code_mutualiste"/>
+<!--                                <field name="code_mutualiste"/>-->
+                                <field name="nom_benef"/>
+                                <field name="prenoms_benef"/>
+                                <field name="datnaiss_benef"/>
+                            </group>
+                            <group>
+                                <field name="genr_benef"/>
+                                <field name="statut_benef"/>
+                                <field name="local_benef"/>
+                                <field name="tel_benef"/>
+                                <field name="etat_benef"/>
+                                <field name="activate_benef"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--        L'action -->
+
+        <record model="ir.actions.act_window" id="dps_beneficiaire_action_window">
+            <field name="name">Bénéficiares</field>
+            <field name="res_model">dps.beneficiaire</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>
